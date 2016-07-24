@@ -1,0 +1,13 @@
+---
+clone:
+  path: github.com/qcentric/chatbot-champion
+
+build:
+  image: docker:1.9.1
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  commands:
+    - SEMVER=$(cat images/champ/VERSION)
+    - BUILD_DATE=$(date +%Y-%m-%d)
+    - VERSION=$SEMVER-$BUILD_DATE-$${COMMIT:0:7}
+    - docker build -f images/champ/Dockerfile -t qcentric/champ:$VERSION images/champ
